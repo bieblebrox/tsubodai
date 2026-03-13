@@ -1,0 +1,473 @@
+{
+    "err": false,
+    "msg": [],
+    "data": {
+        "id": "cmmj5gjay001jeu5ewbnarqyw",
+        "name": "Picture Notes Pricing Refresh (Mar 2026)",
+        "contents": [
+            {
+                "type": "heading-one",
+                "children": [
+                    {
+                        "text": "Picture Notes Pricing Review — March 2026"
+                    }
+                ]
+            },
+            {
+                "type": "heading-two",
+                "children": [
+                    {
+                        "text": "Context\n"
+                    }
+                ]
+            },
+            {
+                "type": "bulleted-list",
+                "children": [
+                    {
+                        "text": "\n"
+                    },
+                    {
+                        "type": "list-item",
+                        "children": [
+                            {
+                                "text": "Legacy Android tiers (Bronze £3.95 / 1 GB, Silver £5.49 / 3 GB, Gold £8.65 / 10 GB) stay live only for existing users; no new signups can see those SKUs."
+                            }
+                        ]
+                    },
+                    {
+                        "text": "\n"
+                    },
+                    {
+                        "type": "list-item",
+                        "children": [
+                            {
+                                "text": "Free tier remains capped at ~100 MB so new users can trial the UX before they need to pay."
+                            }
+                        ]
+                    },
+                    {
+                        "text": "\n"
+                    },
+                    {
+                        "type": "list-item",
+                        "children": [
+                            {
+                                "text": "AI is a native feature now, so every paid plan must include Merlin-powered organisation/search rather than selling it as an add-on.\n"
+                            }
+                        ]
+                    },
+                    {
+                        "text": "\n"
+                    }
+                ]
+            },
+            {
+                "type": "heading-two",
+                "children": [
+                    {
+                        "text": "New Plan Structure"
+                    }
+                ]
+            },
+            {
+                "type": "paragraph",
+                "children": [
+                    {
+                        "text": "\n"
+                    }
+                ]
+            },
+            {
+                "type": "bulleted-list",
+                "children": [
+                    {
+                        "text": "\n"
+                    },
+                    {
+                        "type": "list-item",
+                        "children": [
+                            {
+                                "bold": true,
+                                "text": "Picture Notes Pro — £6.99/mo (incl. VAT)"
+                            },
+                            {
+                                "text": "\n50 GB pooled storage + unlimited uploads\nMerlin AI: auto tags/captions, semantic Q&amp;A over notes, reminders, HD export, priority support\nPriced between the old Silver and Gold plans, still &lt; Notion Plus + AI or Evernote Personal.\n\n"
+                            }
+                        ]
+                    },
+                    {
+                        "text": "\n"
+                    },
+                    {
+                        "type": "list-item",
+                        "children": [
+                            {
+                                "bold": true,
+                                "text": "Annual option:"
+                            },
+                            {
+                                "text": " £69.99 (≈2 months free) for better cash flow + lower churn risk."
+                            }
+                        ]
+                    },
+                    {
+                        "text": "\n"
+                    }
+                ]
+            },
+            {
+                "type": "paragraph",
+                "children": [
+                    {
+                        "text": "\n"
+                    }
+                ]
+            },
+            {
+                "type": "heading-two",
+                "children": [
+                    {
+                        "text": "Rationale"
+                    }
+                ]
+            },
+            {
+                "type": "paragraph",
+                "children": [
+                    {
+                        "text": "\n"
+                    }
+                ]
+            },
+            {
+                "type": "numbered-list",
+                "children": [
+                    {
+                        "text": "\n"
+                    },
+                    {
+                        "type": "list-item",
+                        "children": [
+                            {
+                                "bold": true,
+                                "text": "Simplicity:"
+                            },
+                            {
+                                "text": " Single paid SKU keeps Paywall + entitlement logic clean across Stripe + Google Play."
+                            }
+                        ]
+                    },
+                    {
+                        "text": "\n"
+                    },
+                    {
+                        "type": "list-item",
+                        "children": [
+                            {
+                                "bold": true,
+                                "text": "Value story:"
+                            },
+                            {
+                                "text": " Messaging shifts from “buy more GB” to “unlock the complete Picture Notes experience with AI baked in.”"
+                            }
+                        ]
+                    },
+                    {
+                        "text": "\n"
+                    },
+                    {
+                        "type": "list-item",
+                        "children": [
+                            {
+                                "bold": true,
+                                "text": "Margin:"
+                            },
+                            {
+                                "text": " Infra estimate ≈£1.30 (storage + inference) → leaves &gt;£5 gross margin for support + marketing."
+                            }
+                        ]
+                    },
+                    {
+                        "text": "\n"
+                    },
+                    {
+                        "type": "list-item",
+                        "children": [
+                            {
+                                "bold": true,
+                                "text": "Competitive placement:"
+                            },
+                            {
+                                "text": " Under-cuts Notion/Evernote AI bundles while feeling premium vs. Day One-level journaling apps."
+                            }
+                        ]
+                    },
+                    {
+                        "text": "\n"
+                    }
+                ]
+            },
+            {
+                "type": "paragraph",
+                "children": [
+                    {
+                        "text": "\n"
+                    }
+                ]
+            },
+            {
+                "type": "heading-two",
+                "children": [
+                    {
+                        "text": "Legacy Handling"
+                    }
+                ]
+            },
+            {
+                "type": "paragraph",
+                "children": [
+                    {
+                        "text": "\n"
+                    }
+                ]
+            },
+            {
+                "type": "bulleted-list",
+                "children": [
+                    {
+                        "text": "\n"
+                    },
+                    {
+                        "type": "list-item",
+                        "children": [
+                            {
+                                "text": "Stripe metadata "
+                            },
+                            {
+                                "code": true,
+                                "text": "plan=legacy-&lt;tier&gt;"
+                            },
+                            {
+                                "text": " so we can grandfather gracefully; Pro SKU is the only one exposed to new buyers."
+                            }
+                        ]
+                    },
+                    {
+                        "text": "\n"
+                    },
+                    {
+                        "type": "list-item",
+                        "children": [
+                            {
+                                "text": "Google Play keeps Bronze/Silver/Gold base plans hidden from listings but live for existing tokens. New SKU "
+                            },
+                            {
+                                "code": true,
+                                "text": "picture-notes-pro"
+                            },
+                            {
+                                "text": " unlocks the Pro entitlement via Merlin."
+                            }
+                        ]
+                    },
+                    {
+                        "text": "\n"
+                    },
+                    {
+                        "type": "list-item",
+                        "children": [
+                            {
+                                "text": "Merlin service interprets entitlements: "
+                            },
+                            {
+                                "code": true,
+                                "text": "legacy"
+                            },
+                            {
+                                "text": " = current benefits, "
+                            },
+                            {
+                                "code": true,
+                                "text": "pro"
+                            },
+                            {
+                                "text": " = full AI bundle. Provide in-app upsell to migrate legacy users voluntarily (prorated credit via Stripe / Play)."
+                            }
+                        ]
+                    },
+                    {
+                        "text": "\n"
+                    }
+                ]
+            },
+            {
+                "type": "paragraph",
+                "children": [
+                    {
+                        "text": "\n"
+                    }
+                ]
+            },
+            {
+                "type": "heading-two",
+                "children": [
+                    {
+                        "text": "Next Steps"
+                    }
+                ]
+            },
+            {
+                "type": "paragraph",
+                "children": [
+                    {
+                        "text": "\n"
+                    }
+                ]
+            },
+            {
+                "type": "numbered-list",
+                "children": [
+                    {
+                        "text": "\n"
+                    },
+                    {
+                        "type": "list-item",
+                        "children": [
+                            {
+                                "text": "Run quick survey / email pulse to validate £6.99 willingness to pay (target: early March)."
+                            }
+                        ]
+                    },
+                    {
+                        "text": "\n"
+                    },
+                    {
+                        "type": "list-item",
+                        "children": [
+                            {
+                                "text": "Update RN paywall copy + visuals to focus on Pro plan benefits and clarify AI is included."
+                            }
+                        ]
+                    },
+                    {
+                        "text": "\n"
+                    },
+                    {
+                        "type": "list-item",
+                        "children": [
+                            {
+                                "text": "Create Stripe + Play products/prices, QA purchase + restore flows (RevenueCat picks up legacy Android subs automatically)."
+                            }
+                        ]
+                    },
+                    {
+                        "text": ""
+                    },
+                    {
+                        "type": "list-item",
+                        "children": [
+                            {
+                                "text": "Announce to legacy users that nothing changes unless they upgrade; offer a 30-day Pro trial coupon to encourage the move."
+                            }
+                        ]
+                    },
+                    {
+                        "text": "\n"
+                    }
+                ]
+            },
+            {
+                "type": "paragraph",
+                "children": [
+                    {
+                        "text": "\n"
+                    }
+                ]
+            }
+        ],
+        "description": "\"Pricing refresh notes for Picture Notes — let's elevate your storage game with AI-powered flair!\"",
+        "color": null,
+        "icon": null,
+        "thumbnail": null,
+        "type": "Note",
+        "knowledgeBaseId": "cmmaezqd8004q10kn64mbphyx",
+        "properties": [],
+        "data": {},
+        "createdByUser": "01244b73-38a5-45e2-ab06-9f873b0a33fb",
+        "updatedByUser": "01244b73-38a5-45e2-ab06-9f873b0a33fb",
+        "createdAt": "2026-03-09T12:20:48.442Z",
+        "updatedAt": "2026-03-09T12:23:24.451Z",
+        "deleted": false,
+        "deletedAt": null,
+        "indexUpdatedAt": null,
+        "suggestion": false,
+        "applied": true,
+        "rejected": false,
+        "nodeflowNodeId": null,
+        "nodeflowType": null,
+        "areaMappings": [
+            {
+                "nodeId": "cmmj5gjay001jeu5ewbnarqyw",
+                "areaId": "cmmaezqgd005010knen830adr",
+                "data": {},
+                "knowledgeBaseId": "cmmaezqd8004q10kn64mbphyx",
+                "suggestion": true,
+                "applied": false,
+                "rejected": false,
+                "createdAt": "2026-03-09T12:20:50.855Z",
+                "updatedAt": "2026-03-09T12:20:50.855Z",
+                "createdByUser": null,
+                "updatedByUser": null,
+                "area": {
+                    "id": "cmmaezqgd005010knen830adr",
+                    "createdAt": "2026-03-03T09:37:45.026Z",
+                    "updatedAt": "2026-03-03T09:43:15.211Z",
+                    "knowledgeBaseId": "cmmaezqd8004q10kn64mbphyx",
+                    "color": "persiangreen",
+                    "icon": null,
+                    "name": "Technical Knowledge",
+                    "description": "Resources related to software development practices, coding standards, and technical documentation.",
+                    "data": {},
+                    "suggestion": true,
+                    "applied": true,
+                    "rejected": false,
+                    "createdByUser": "8eba3bf6-18c4-412b-ad75-d99d0325fff1",
+                    "updatedByUser": null
+                }
+            },
+            {
+                "nodeId": "cmmj5gjay001jeu5ewbnarqyw",
+                "areaId": "cmmaezqdd004s10kndwuz623l",
+                "data": {},
+                "knowledgeBaseId": "cmmaezqd8004q10kn64mbphyx",
+                "suggestion": false,
+                "applied": true,
+                "rejected": false,
+                "createdAt": "2026-03-09T12:20:53.373Z",
+                "updatedAt": "2026-03-09T12:20:53.373Z",
+                "createdByUser": "01244b73-38a5-45e2-ab06-9f873b0a33fb",
+                "updatedByUser": null,
+                "area": {
+                    "id": "cmmaezqdd004s10kndwuz623l",
+                    "createdAt": "2026-03-03T09:37:45.025Z",
+                    "updatedAt": "2026-03-03T09:43:09.216Z",
+                    "knowledgeBaseId": "cmmaezqd8004q10kn64mbphyx",
+                    "color": "persiangreen",
+                    "icon": null,
+                    "name": "Projects",
+                    "description": "Documentation of all current and past projects, including objectives, methodologies, and outcomes.",
+                    "data": {},
+                    "suggestion": true,
+                    "applied": true,
+                    "rejected": false,
+                    "createdByUser": "8eba3bf6-18c4-412b-ad75-d99d0325fff1",
+                    "updatedByUser": null
+                }
+            }
+        ],
+        "resource": null,
+        "incomingLinks": [],
+        "outgoingLinks": []
+    }
+}

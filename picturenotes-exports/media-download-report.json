@@ -1,0 +1,447 @@
+{
+  "downloaded": [
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/12/Microsoft_Office_OneNote_2019\u2013present.svg_.png",
+      "path": "picturenotes-exports/media/2022/12/Microsoft_Office_OneNote_2019\u2013present.svg_.png",
+      "status": "downloaded"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/12/notepad.png",
+      "path": "picturenotes-exports/media/2022/12/notepad.png",
+      "status": "downloaded"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2023/01/W_white.jpg",
+      "path": "picturenotes-exports/media/2023/01/W_white.jpg",
+      "status": "downloaded"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2023/01/Image_Placeholder_Hero-2.jpeg",
+      "path": "picturenotes-exports/media/2023/01/Image_Placeholder_Hero-2.jpeg",
+      "status": "downloaded"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2023/01/Image_Placeholder-about-2.jpeg",
+      "path": "picturenotes-exports/media/2023/01/Image_Placeholder-about-2.jpeg",
+      "status": "downloaded"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2023/01/Image-Testemonials-2.jpeg",
+      "path": "picturenotes-exports/media/2023/01/Image-Testemonials-2.jpeg",
+      "status": "downloaded"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2023/01/Image-horizontal-2.jpg",
+      "path": "picturenotes-exports/media/2023/01/Image-horizontal-2.jpg",
+      "status": "downloaded"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2023/01/class-note-scaled.jpg",
+      "path": "picturenotes-exports/media/2023/01/class-note-scaled.jpg",
+      "status": "downloaded"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2023/01/cocktails-scaled.jpg",
+      "path": "picturenotes-exports/media/2023/01/cocktails-scaled.jpg",
+      "status": "downloaded"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2023/01/pub-scaled.jpg",
+      "path": "picturenotes-exports/media/2023/01/pub-scaled.jpg",
+      "status": "downloaded"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2023/01/recipe.jpg",
+      "path": "picturenotes-exports/media/2023/01/recipe.jpg",
+      "status": "downloaded"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2023/01/Travel-scaled.jpg",
+      "path": "picturenotes-exports/media/2023/01/Travel-scaled.jpg",
+      "status": "downloaded"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2023/02/woman-diy-blogger-takes-photo-mobile-phone-diy-blog-social-media-handmade-jute-rope-lamp-home-scaled.jpg",
+      "path": "picturenotes-exports/media/2023/02/woman-diy-blogger-takes-photo-mobile-phone-diy-blog-social-media-handmade-jute-rope-lamp-home-scaled.jpg",
+      "status": "downloaded"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2023/02/1255-scaled.jpg",
+      "path": "picturenotes-exports/media/2023/02/1255-scaled.jpg",
+      "status": "downloaded"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2023/11/4474527-scaled.jpg",
+      "path": "picturenotes-exports/media/2023/11/4474527-scaled.jpg",
+      "status": "downloaded"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2023/11/12297156_4937591-scaled.jpg",
+      "path": "picturenotes-exports/media/2023/11/12297156_4937591-scaled.jpg",
+      "status": "downloaded"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2023/11/6183565_3084948.jpg",
+      "path": "picturenotes-exports/media/2023/11/6183565_3084948.jpg",
+      "status": "downloaded"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2023/12/10780337_19197058-scaled.jpg",
+      "path": "picturenotes-exports/media/2023/12/10780337_19197058-scaled.jpg",
+      "status": "downloaded"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2023/11/13961232_5385893-scaled.jpg",
+      "path": "picturenotes-exports/media/2023/11/13961232_5385893-scaled.jpg",
+      "status": "downloaded"
+    }
+  ],
+  "skipped_existing": [
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/03/veapp3.png",
+      "path": "picturenotes-exports/media/2022/03/veapp3.png",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/03/app-store-black.png",
+      "path": "picturenotes-exports/media/2022/03/app-store-black.png",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/03/google-play-black.png",
+      "path": "picturenotes-exports/media/2022/03/google-play-black.png",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/03/veapp-logo.png",
+      "path": "picturenotes-exports/media/2022/03/veapp-logo.png",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/03/back-3-min.png",
+      "path": "picturenotes-exports/media/2022/03/back-3-min.png",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/03/home-1-app-min-1.png",
+      "path": "picturenotes-exports/media/2022/03/home-1-app-min-1.png",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/03/back-4-min-1.png",
+      "path": "picturenotes-exports/media/2022/03/back-4-min-1.png",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/03/iphone-11-min.png",
+      "path": "picturenotes-exports/media/2022/03/iphone-11-min.png",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/03/Finance-Line-Black-Converted_15.png",
+      "path": "picturenotes-exports/media/2022/03/Finance-Line-Black-Converted_15.png",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/03/Finance-Line-Black-Converted_20.png",
+      "path": "picturenotes-exports/media/2022/03/Finance-Line-Black-Converted_20.png",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/03/Finance-Line-Black-Converted_03.png",
+      "path": "picturenotes-exports/media/2022/03/Finance-Line-Black-Converted_03.png",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/03/back-4-min.png",
+      "path": "picturenotes-exports/media/2022/03/back-4-min.png",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/03/iphone-11-angle-3-min-1.png",
+      "path": "picturenotes-exports/media/2022/03/iphone-11-angle-3-min-1.png",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/03/logo-5.png",
+      "path": "picturenotes-exports/media/2022/03/logo-5.png",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/03/logo-6.png",
+      "path": "picturenotes-exports/media/2022/03/logo-6.png",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/03/logo-7.png",
+      "path": "picturenotes-exports/media/2022/03/logo-7.png",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/03/logo-8.png",
+      "path": "picturenotes-exports/media/2022/03/logo-8.png",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/03/logo-9.png",
+      "path": "picturenotes-exports/media/2022/03/logo-9.png",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/03/logo-10.png",
+      "path": "picturenotes-exports/media/2022/03/logo-10.png",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/03/logo-12.png",
+      "path": "picturenotes-exports/media/2022/03/logo-12.png",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/03/logo-2.png",
+      "path": "picturenotes-exports/media/2022/03/logo-2.png",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/03/logo-3.png",
+      "path": "picturenotes-exports/media/2022/03/logo-3.png",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/03/logo-4.png",
+      "path": "picturenotes-exports/media/2022/03/logo-4.png",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/03/iPhone-11-Pro-min.png",
+      "path": "picturenotes-exports/media/2022/03/iPhone-11-Pro-min.png",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/03/full-length-handsome-african-american-man-P7JPL65.jpg",
+      "path": "picturenotes-exports/media/2022/03/full-length-handsome-african-american-man-P7JPL65.jpg",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/03/smiling-businesswoman-walking-along-the-office-cor-SF8R2EA.jpg",
+      "path": "picturenotes-exports/media/2022/03/smiling-businesswoman-walking-along-the-office-cor-SF8R2EA.jpg",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/03/confident-male-designer-in-office-BQL3TV8.jpg",
+      "path": "picturenotes-exports/media/2022/03/confident-male-designer-in-office-BQL3TV8.jpg",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/03/portrait-of-a-confident-young-man-dressed-in-shirt-P4DTYKC.jpg",
+      "path": "picturenotes-exports/media/2022/03/portrait-of-a-confident-young-man-dressed-in-shirt-P4DTYKC.jpg",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/03/world-min.png",
+      "path": "picturenotes-exports/media/2022/03/world-min.png",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/03/back-panel-min.png",
+      "path": "picturenotes-exports/media/2022/03/back-panel-min.png",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/03/face-5-min.jpg",
+      "path": "picturenotes-exports/media/2022/03/face-5-min.jpg",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/03/face-9-min.jpg",
+      "path": "picturenotes-exports/media/2022/03/face-9-min.jpg",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/03/confident-man-dressed-in-suit-9DV7XHT.jpg",
+      "path": "picturenotes-exports/media/2022/03/confident-man-dressed-in-suit-9DV7XHT.jpg",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/03/face-1-min.jpg",
+      "path": "picturenotes-exports/media/2022/03/face-1-min.jpg",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/03/cheerful-businessman-with-crossed-arms-isolated-on-7MD6A95.jpg",
+      "path": "picturenotes-exports/media/2022/03/cheerful-businessman-with-crossed-arms-isolated-on-7MD6A95.jpg",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/03/happy-young-elegant-businesswoman-in-white-shirt-l-UJ5JRJ7.jpg",
+      "path": "picturenotes-exports/media/2022/03/happy-young-elegant-businesswoman-in-white-shirt-l-UJ5JRJ7.jpg",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/03/a-portrait-of-caucasian-man-PDZTLMB-1.jpg",
+      "path": "picturenotes-exports/media/2022/03/a-portrait-of-caucasian-man-PDZTLMB-1.jpg",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/03/veapp3-1.png",
+      "path": "picturenotes-exports/media/2022/03/veapp3-1.png",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/05/1.png",
+      "path": "picturenotes-exports/media/2022/05/1.png",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/05/2.png",
+      "path": "picturenotes-exports/media/2022/05/2.png",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/05/11.png",
+      "path": "picturenotes-exports/media/2022/05/11.png",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/05/1234.png",
+      "path": "picturenotes-exports/media/2022/05/1234.png",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/05/23.png",
+      "path": "picturenotes-exports/media/2022/05/23.png",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/05/2342.png",
+      "path": "picturenotes-exports/media/2022/05/2342.png",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/05/save.png",
+      "path": "picturenotes-exports/media/2022/05/save.png",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/05/save-1.png",
+      "path": "picturenotes-exports/media/2022/05/save-1.png",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/05/Artboard-14-copy212590.png",
+      "path": "picturenotes-exports/media/2022/05/Artboard-14-copy212590.png",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/05/Artboard-14-copy2-2.png",
+      "path": "picturenotes-exports/media/2022/05/Artboard-14-copy2-2.png",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/05/Artboard-14-copy2-2-2.png",
+      "path": "picturenotes-exports/media/2022/05/Artboard-14-copy2-2-2.png",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/05/Artboard-14-copy2-22.png",
+      "path": "picturenotes-exports/media/2022/05/Artboard-14-copy2-22.png",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/05/Artboard-14.png",
+      "path": "picturenotes-exports/media/2022/05/Artboard-14.png",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/05/Artboard-14-copy.png",
+      "path": "picturenotes-exports/media/2022/05/Artboard-14-copy.png",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/05/banner.png",
+      "path": "picturenotes-exports/media/2022/05/banner.png",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/05/Untitled-2-1.png",
+      "path": "picturenotes-exports/media/2022/05/Untitled-2-1.png",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/05/Screenshot_20220407-210231.jpg",
+      "path": "picturenotes-exports/media/2022/05/Screenshot_20220407-210231.jpg",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/05/image.png",
+      "path": "picturenotes-exports/media/2022/05/image.png",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/05/ORGANIS.png",
+      "path": "picturenotes-exports/media/2022/05/ORGANIS.png",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/05/find.png",
+      "path": "picturenotes-exports/media/2022/05/find.png",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/05/idea.png",
+      "path": "picturenotes-exports/media/2022/05/idea.png",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/05/IDA.png",
+      "path": "picturenotes-exports/media/2022/05/IDA.png",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/05/BACK.png",
+      "path": "picturenotes-exports/media/2022/05/BACK.png",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/05/banner-1.png",
+      "path": "picturenotes-exports/media/2022/05/banner-1.png",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/05/Untitled-5.png",
+      "path": "picturenotes-exports/media/2022/05/Untitled-5.png",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/05/Untitle-5.png",
+      "path": "picturenotes-exports/media/2022/05/Untitle-5.png",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/03/Artboard-14-copy2-2-22.png",
+      "path": "picturenotes-exports/media/2022/03/Artboard-14-copy2-2-22.png",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/03/Artboard-14-copy2-2-2234.png",
+      "path": "picturenotes-exports/media/2022/03/Artboard-14-copy2-2-2234.png",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/05/Artboard-9.png",
+      "path": "picturenotes-exports/media/2022/05/Artboard-9.png",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/05/cropped-Artboard-9.png",
+      "path": "picturenotes-exports/media/2022/05/cropped-Artboard-9.png",
+      "status": "exists"
+    },
+    {
+      "url": "https://picturenotes.co.uk/wp-content/uploads/2022/12/Dropbox_Paper_logo_with_text.png",
+      "path": "picturenotes-exports/media/2022/12/Dropbox_Paper_logo_with_text.png",
+      "status": "exists"
+    }
+  ],
+  "errors": []
+}

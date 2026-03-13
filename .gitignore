@@ -1,0 +1,8 @@
+.env*
+sirius/*
+.clawhub
+.ssh
+.openclaw
+tmp/
+.DS_Store
+*.log
