@@ -2,9 +2,9 @@
 
 ## 1. Check for open tasks (primary)
 
-Read the `openTasks/` folder in your workspace.
+Run `ls workspace/openTasks/` (via `exec`) to list pending task files.
 
-- If the folder is **empty or missing**: nothing to do → reply `HEARTBEAT_OK`
+- If the folder is **empty or missing** (only `.keep` present or no files): nothing to do → reply `HEARTBEAT_OK`
 - If files exist: for each task file:
   1. Read the file to understand what was promised, to whom, and on which session
   2. Call `sessions_list` (kinds: `["group", "main"]`, activeMinutes: 240, messageLimit: 5) to verify the session is still live and get fresh `deliveryContext`
