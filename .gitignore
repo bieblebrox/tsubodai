@@ -6,3 +6,4 @@ sirius/*
 tmp/
 .DS_Store
 *.log
+code/*
