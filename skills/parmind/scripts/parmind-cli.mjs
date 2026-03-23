@@ -10111,7 +10111,8 @@ var init_markdown = __esm({
 });
 
 // libs/parmind-skill/src/lib/api-key-client.ts
-var PROD_API_BASE, ENV_API_BASE, ENV_API_KEY, createApiKeyClient, resolveApiBaseUrl, toSlateContent, createApiKeyBackedClient;
+import { createHash } from "node:crypto";
+var PROD_API_BASE, ENV_API_BASE, ENV_API_KEY, createApiKeyClient, resolveApiBaseUrl, stableStringify, computeContentsHash, toSlateContent, createApiKeyBackedClient;
 var init_api_key_client = __esm({
   "libs/parmind-skill/src/lib/api-key-client.ts"() {
     "use strict";
@@ -10135,6 +10136,20 @@ var init_api_key_client = __esm({
       const base = override ?? process.env[ENV_API_BASE] ?? PROD_API_BASE;
       return base.replace(/\/+$/, "");
     };
+    stableStringify = (value) => {
+      if (Array.isArray(value)) {
+        return `[${value.map(stableStringify).join(",")}]`;
+      }
+      if (value !== null && typeof value === "object") {
+        const keys = Object.keys(value).sort();
+        const pairs = keys.map(
+          (k2) => `${JSON.stringify(k2)}:${stableStringify(value[k2])}`
+        );
+        return `{${pairs.join(",")}}`;
+      }
+      return JSON.stringify(value);
+    };
+    computeContentsHash = (contents) => createHash("sha256").update(stableStringify(contents)).digest("hex");
     toSlateContent = (input) => {
       if (input.slateContent && input.slateContent.length > 0) {
         return input.slateContent;
@@ -10193,7 +10208,6 @@ var init_api_key_client = __esm({
                 knowledgeBase: { connect: { id: input.kbId } },
                 name: input.title,
                 contents,
-                ...input.description ? { description: input.description } : {},
                 type: input.type ?? "Note",
                 color: input.color,
                 icon: input.icon,
@@ -10246,7 +10260,7 @@ var init_api_key_client = __esm({
             () => withRetry(async () => {
               const payload = {
                 name: input.name,
-                description: input.description ?? "",
+                ...input.description ? { description: input.description } : {},
                 ...input.color ? { color: input.color } : {},
                 ...input.icon ? { icon: input.icon } : {},
                 ...input.data ? { data: input.data } : {},
@@ -10322,6 +10336,62 @@ var init_api_key_client = __esm({
                 relatedNodes: connectionData.nodes ?? [],
                 relations: connectionData.relations ?? []
               };
+            })
+          );
+        },
+        async getNodeContents(nodeId) {
+          return withTelemetry(
+            logger,
+            "getNodeContents",
+            { nodeId },
+            () => withRetry(async () => {
+              const response = await request(`node/${nodeId}`);
+              const node = unwrap(response, "node:get");
+              const contents = node.contents ?? [];
+              return {
+                nodeId: node.id,
+                nodeName: node.name,
+                contents,
+                contentHash: computeContentsHash(contents)
+              };
+            })
+          );
+        },
+        async updateNode(input) {
+          const mode = input.mode ?? "append";
+          return withTelemetry(
+            logger,
+            "updateNode",
+            { nodeId: input.nodeId, mode },
+            () => withRetry(async () => {
+              const response = await request(`node/${input.nodeId}`);
+              const node = unwrap(response, "node:get");
+              const existingContents = node.contents ?? [];
+              const newBlocks = markdownToSlate(input.markdownContent);
+              let updatedContents;
+              if (mode === "replace") {
+                if (existingContents.length > 0) {
+                  if (!input.contentHash) {
+                    throw new Error(
+                      `Node '${node.name}' (${node.id}) already has content. Call getNodeContents first to read it, then re-call updateNode with the returned contentHash.`
+                    );
+                  }
+                  const currentHash = computeContentsHash(existingContents);
+                  if (input.contentHash !== currentHash) {
+                    throw new Error(
+                      `contentHash mismatch for node '${node.name}' (${node.id}) \u2014 it was modified since you last read it. Call getNodeContents again to get the latest content and hash before retrying.`
+                    );
+                  }
+                }
+                updatedContents = newBlocks;
+              } else {
+                updatedContents = [...existingContents, ...newBlocks];
+              }
+              await request(`node/${node.id}`, {
+                method: "PATCH",
+                body: JSON.stringify({ contents: updatedContents })
+              });
+              return { nodeId: node.id, nodeName: node.name, mode };
             })
           );
         }
@@ -10467,6 +10537,51 @@ var require_main = __commonJS({
       try {
         const client = getClient(rootOpts);
         const result = await client.getNodeContext(cmdOptions.id);
+        output(result, rootOpts.pretty);
+      } catch (error) {
+        console.error(error instanceof Error ? error.message : error);
+        process.exit(1);
+      }
+    });
+    program2.command("node:contents").description("Get a node's current Slate content and its content hash").requiredOption("--id <nodeId>", "Node ID").action(async (cmdOptions) => {
+      const rootOpts = program2.opts();
+      try {
+        const client = getClient(rootOpts);
+        const result = await client.getNodeContents(cmdOptions.id);
+        output(result, rootOpts.pretty);
+      } catch (error) {
+        console.error(error instanceof Error ? error.message : error);
+        process.exit(1);
+      }
+    });
+    program2.command("node:update").description("Update a node's content from markdown (append or replace)").requiredOption("--id <nodeId>", "Node ID").option("--markdown <text>", "Markdown content string").option("--markdown-file <file>", "Path to a markdown file").option(
+      "--mode <mode>",
+      'Update mode: "append" (default) or "replace"',
+      "append"
+    ).option(
+      "--content-hash <hash>",
+      "Content hash from node:contents \u2014 required when --mode replace and node has existing content"
+    ).action(async (cmdOptions) => {
+      const rootOpts = program2.opts();
+      try {
+        const client = getClient(rootOpts);
+        let markdown = cmdOptions.markdown;
+        if (cmdOptions.markdownFile) {
+          const filePath = path.resolve(process.cwd(), cmdOptions.markdownFile);
+          markdown = fs.readFileSync(filePath, "utf-8");
+        }
+        if (!markdown) {
+          throw new Error("Provide --markdown <text> or --markdown-file <path>.");
+        }
+        if (cmdOptions.mode !== "append" && cmdOptions.mode !== "replace") {
+          throw new Error('--mode must be "append" or "replace".');
+        }
+        const result = await client.updateNode({
+          nodeId: cmdOptions.id,
+          markdownContent: markdown,
+          mode: cmdOptions.mode,
+          contentHash: cmdOptions.contentHash
+        });
         output(result, rootOpts.pretty);
       } catch (error) {
         console.error(error instanceof Error ? error.message : error);

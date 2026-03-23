@@ -1,192 +1,192 @@
----
-name: parmind
-description: "Read and write Parmind knowledge base content. Use to create notes, search the KB, list areas, apply areas to nodes, and retrieve node context with relations."
----
-
 # Parmind Skill
 
-Use this skill whenever you need to interact with Josh's Parmind knowledge base — creating notes, searching for existing content, browsing the area taxonomy, or enriching a node with context.
+Gives you access to a Parmind knowledge base: create notes, manage areas, search content, and inspect node context — all through a single CLI binary.
 
-The CLI is a self-contained bundle (`parmind-cli.mjs`). All requests are authenticated via the `PARMIND_API_KEY` environment variable (KB-scoped API key). No user JWT is needed.
+## Setup
 
-## Environment Variables
+Download the CLI binary from the release and set the required environment variables:
 
-Set these in the skill's `env` block in `openclaw.json`. The CLI refuses to run without `PARMIND_API_KEY`.
+```sh
+export PARMIND_API_KEY="<your-api-key>"
+export PARMIND_KB_ID="<your-knowledge-base-id>"
 
-| Variable | Required | Notes |
-|---|---|---|
-| `PARMIND_API_KEY` | Yes | KB-scoped API key (`pk_live_...`) |
-| `PARMIND_API_BASE` | No | Override API base URL (defaults to `https://f1.gloow.io`) |
-| `PARMIND_KB_ID` | Recommended | Josh's default KB ID — avoids passing `--kb` to every `note:create` call |
+# Optional: override the default API endpoint
+export PARMIND_API_BASE="https://f1.gloow.io"
+```
 
-## Script Reference
+Run the binary with Node 22+:
 
-Executable: `skills/parmind/scripts/parmind-cli.mjs`
+```sh
+node parmind-cli.mjs <command> [options]
+```
 
-All commands output JSON to stdout. Use `--pretty` for human-readable output. Errors print to stderr and exit with code 1.
+All commands write JSON to stdout. Use `--pretty` on any command for formatted output.
 
 ---
 
-### `note:create`
+## Commands
 
-Create a note in the KB. Content can be provided as inline markdown or a file path. The note is automatically converted to Slate format before saving.
+### note:create
 
-```bash
-node skills/parmind/scripts/parmind-cli.mjs note:create \
-  --title "Meeting notes 2026-03-09" \
-  --markdown "## Summary\n\nDiscussed Q2 roadmap and onboarding priorities."
+Create a note in the knowledge base.
+
+```sh
+node parmind-cli.mjs note:create \
+  --title "My Note" \
+  --markdown "# Hello\nThis is the note body." \
+  [--kb <kbId>] \
+  [--area <areaId> ...] \
+  [--markdown-file <path>]
 ```
 
-```bash
-node skills/parmind/scripts/parmind-cli.mjs note:create \
-  --title "Research: vector DB options" \
-  --markdown-file /tmp/research.md \
-  --area <areaId>
-```
+| Option | Description |
+|---|---|
+| `--title` | **(required)** Note title |
+| `--markdown` | Markdown string for the note body |
+| `--markdown-file` | Path to a `.md` file to use as the body |
+| `--kb` | Knowledge base ID (overrides `PARMIND_KB_ID`) |
+| `--area` | One or more area IDs to tag the note with |
 
-Options:
-- `--title <title>` (required)
-- `--kb <kbId>` — overrides `PARMIND_KB_ID` env for this call
-- `--markdown <text>` — inline markdown string
-- `--markdown-file <file>` — path to a `.md` file
-- `--area <id> [<id>...]` — one or more area IDs to apply immediately
+**Output:** `{ nodeId: string, node: Node }`
 
 ---
 
-### `note:get`
+### note:get
 
-Fetch a single note by node ID.
+Fetch a single note by its node ID.
 
-```bash
-node skills/parmind/scripts/parmind-cli.mjs note:get --id <nodeId>
+```sh
+node parmind-cli.mjs note:get --id <nodeId>
 ```
+
+**Output:** `{ node: Node }`
 
 ---
 
-### `search`
+### search
 
-Full-text search across the KB. Useful for finding existing notes before creating duplicates or gathering context.
+Full-text search across the knowledge base.
 
-```bash
-node skills/parmind/scripts/parmind-cli.mjs search --query "vector database"
-node skills/parmind/scripts/parmind-cli.mjs search --query "onboarding" --page-size 5
+```sh
+node parmind-cli.mjs search \
+  --query "machine learning" \
+  [--page 1] \
+  [--page-size 15]
 ```
 
-Options:
-- `--query <text>` (required)
-- `--page <n>` (default: 1)
-- `--page-size <n>` (default: 15)
+**Output:** `{ query, page, pageSize, total, results: SearchResult[] }`
 
 ---
 
-### `area:list`
+### area:list
 
-List all areas defined in the KB. Use this to discover valid area IDs before applying them.
+List all areas in the knowledge base.
 
-```bash
-node skills/parmind/scripts/parmind-cli.mjs area:list --pretty
+```sh
+node parmind-cli.mjs area:list
 ```
+
+**Output:** `{ areas: Area[] }`
 
 ---
 
-### `area:create`
+### area:create
 
-Create a new area inside the KB (API-key flow already carries owner-level permissions). Accepts optional color/icon/data payloads and reads JSON either inline or from a file.
+Create a new area (collection/tag) in the knowledge base.
 
-```bash
-node skills/parmind/scripts/parmind-cli.mjs area:create \
-  --kb <kbId> \
+```sh
+node parmind-cli.mjs area:create \
   --name "Go-To-Market" \
-  --color "#ff5a5f" \
-  --icon "Target" \
-  --data '{"owner":"ops","priority":"P1"}'
+  [--kb <kbId>] \
+  [--description "GTM planning area"] \
+  [--color "#FF5A5F"] \
+  [--icon "flag"] \
+  [--data '{"owner":"ops"}'] \
+  [--data-file <path>]
 ```
 
-Options:
-- `--kb <kbId>` — overrides `PARMIND_KB_ID`
-- `--name <name>` (required)
-- `--description <text>` — optional summary, max 255 chars
-- `--color <value>` / `--icon <name>` — match Merlin expectations
-- `--data <json>` or `--data-file <path>` — structured metadata blob
+**Output:** `{ area: Area }`
 
 ---
 
-### `area:apply`
+### area:apply
 
-Apply an area tag to an existing node.
+Apply an existing area to an existing node.
 
-```bash
-node skills/parmind/scripts/parmind-cli.mjs area:apply --area <areaId> --node <nodeId>
+```sh
+node parmind-cli.mjs area:apply \
+  --area <areaId> \
+  --node <nodeId>
 ```
+
+**Output:** `{ success: true }`
 
 ---
 
-### `node:context`
+### node:context
 
-Retrieve a node together with its connected nodes and relations. Useful for understanding how a piece of knowledge is linked.
+Get a node's full context: its own data plus all directly connected nodes and relations.
 
-```bash
-node skills/parmind/scripts/parmind-cli.mjs node:context --id <nodeId>
+```sh
+node parmind-cli.mjs node:context --id <nodeId>
 ```
+
+**Output:** `{ node: Node, relatedNodes: Node[], relations: Relation[] }`
 
 ---
 
-## Response Format
+### node:contents
 
-All commands print JSON to stdout.
+Fetch a node's current Slate content blocks and a stable content hash. The hash must be passed to `node:update --mode replace` to confirm you have seen the content before overwriting it.
 
-**Success (note:create, note:get, node:context):**
-```json
-{
-  "nodeId": "abc123",
-  "node": { "id": "abc123", "name": "...", "contents": [...], ... }
-}
+```sh
+node parmind-cli.mjs node:contents --id <nodeId>
 ```
 
-**Success (search):**
-```json
-{
-  "query": "onboarding",
-  "page": 1,
-  "pageSize": 15,
-  "total": 42,
-  "results": [ { "nodeId": "...", "title": "...", "excerpt": "..." } ]
-}
-```
-
-**Success (area:list):**
-```json
-{
-  "areas": [ { "id": "...", "name": "...", "color": "..." } ]
-}
-```
-
-**Error:**
-```
-Error message printed to stderr, exit code 1
-```
+**Output:** `{ nodeId, nodeName, contents: SlateNode[], contentHash: string }`
 
 ---
 
-## Workflow Tips
+### node:update
 
-- **Before creating a note**, run `search` to check if a related note already exists. Prefer enriching an existing note via `node:context` + a follow-up `note:create` with refined content.
-- **For area assignment**, run `area:list` at session start to build a mapping of area names → IDs. Cache these in-session to avoid repeated calls.
-- **Large markdown content** should be written to a temp file and passed via `--markdown-file` rather than inlined in the shell command to avoid quoting issues.
-- **`PARMIND_KB_ID` should always be set** in the skill env so that `note:create` never requires an explicit `--kb` flag. If it is missing, the CLI will print a clear error.
-- When the API returns an error (non-200), the error message from the server is surfaced verbatim — relay it to Josh if it indicates a configuration or permission issue.
+Update a node's content from a Markdown string or file.
 
-## Installing the CLI
-
-The `parmind-cli.mjs` file is a bundled build artifact from `libs/parmind-skill` in the Sirius monorepo. To (re)build and copy it here:
-
-```bash
-# From the Sirius monorepo root
-nx run parmind-skill:bundle-cli
-
-# Copy output to this skill folder
-cp dist/libs/parmind-skill-cli/parmind-cli.mjs \
-  ~/.openclaw/workspace/skills/parmind/scripts/parmind-cli.mjs
-
-chmod +x ~/.openclaw/workspace/skills/parmind/scripts/parmind-cli.mjs
+```sh
+node parmind-cli.mjs node:update \
+  --id <nodeId> \
+  --markdown "## New section\n- bullet" \
+  [--mode append|replace] \
+  [--content-hash <hash>] \
+  [--markdown-file <path>]
 ```
+
+| Option | Description |
+|---|---|
+| `--id` | **(required)** Node ID |
+| `--markdown` | Markdown content string |
+| `--markdown-file` | Path to a `.md` file |
+| `--mode` | `append` (default) or `replace` |
+| `--content-hash` | Hash from `node:contents` — required when `--mode replace` and node has content |
+
+**Output:** `{ nodeId, nodeName, mode }`
+
+> **replace flow:** First run `node:contents --id <id>`, copy the `contentHash`, then pass it via `--content-hash`. The write is rejected if the node was modified since you read it.
+
+---
+
+## Global options
+
+These can be passed to any command instead of using environment variables:
+
+| Option | Env var | Description |
+|---|---|---|
+| `--api-key <key>` | `PARMIND_API_KEY` | Parmind API key |
+| `--api-base <url>` | `PARMIND_API_BASE` | Override API base URL |
+| `--kb <kbId>` | `PARMIND_KB_ID` | Default knowledge base ID |
+| `--pretty` | — | Pretty-print JSON output |
+
+---
+
+## Error handling
+
+All commands exit with code `1` on failure and write an error message to stderr. Transient errors (HTTP 429, 503) are retried up to 3 times with exponential backoff before failing.

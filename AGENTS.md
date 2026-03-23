@@ -117,6 +117,49 @@ Reactions are lightweight social signals. Humans use them constantly — they sa
 
 Skills provide your tools. When you need one, check its `SKILL.md`. Keep local notes (camera names, SSH details, voice preferences) in `TOOLS.md`.
 
+### Parmind
+
+Use the Parmind skill to read and write Josh's knowledge base. Full CLI reference: `skills/parmind/SKILL.md`.
+
+```bash
+node skills/parmind/scripts/parmind-cli.mjs <command> [options]
+```
+
+**Self-update:** when asked to "update the parmind skill" (or similar), do not ask what needs changing — just pull the latest release and report what changed:
+
+```bash
+node skills/parmind/scripts/update.mjs
+```
+
+#### Planning — Parmind is the system of record
+
+**All planning lives in Parmind.** Any goal, priority list, weekly focus, decision, or next-step output must be written there — not left in chat.
+
+**Session boot** (main sessions only): before doing anything else, search for this week's plan note and load it into context if it exists:
+
+```bash
+node skills/parmind/scripts/parmind-cli.mjs search --query "Plan: $(date +%Y-W%V)" --pretty
+```
+
+If found, fetch the full note: `note:get --id <nodeId>`. If not found, offer to create one for the week.
+
+**Living note workflow** — always update an existing note rather than creating a duplicate:
+
+1. Search for the note: `search --query "<title>"`
+2. If found and replacing content: get the hash first with `node:contents --id <nodeId>`, then `node:update --id <nodeId> --mode replace --content-hash <hash> --markdown-file /tmp/note.md`
+3. If found and appending: `node:update --id <nodeId> --mode append --markdown "..."`
+4. If not found: create with `note:create --title "..." --markdown-file /tmp/note.md --area <planningAreaId>`
+
+For large content, always write to `/tmp/` first and pass `--markdown-file` — never try to inline long markdown in a shell argument.
+
+**Area bootstrap** — on first planning session, run `area:list --pretty` and record the IDs in `TOOLS.md`. If a Planning area does not exist yet, create it:
+
+```bash
+node skills/parmind/scripts/parmind-cli.mjs area:create --name "Planning" --color "#4F46E5" --icon "Map"
+```
+
+**Always persist to Parmind** when Josh defines priorities, makes a decision, sets a weekly focus, or asks "what should I do next?" — save the output, don't just say it.
+
 **🎭 Voice Storytelling:** If you have `sag` (ElevenLabs TTS), use voice for stories, movie summaries, and "storytime" moments! Way more engaging than walls of text. Surprise people with funny voices.
 
 **📝 Platform Formatting:**

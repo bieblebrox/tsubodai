@@ -1,0 +1,11 @@
+{
+  "repo": "NebulaeSoft/sirius",
+  "tag": "parmind-skill/dev-latest",
+  "releaseName": "parmind-skill dev-latest",
+  "publishedAt": "2026-03-23T22:30:59Z",
+  "updatedAt": "2026-03-23T22:52:22.899Z",
+  "updatedFiles": [
+    "parmind-cli.mjs",
+    "SKILL.md"
+  ]
+}

@@ -1,3 +1,17 @@
 # Parmind Skill Notes
 
-- Whenever you update the CLI bundle (`parmind-cli.mjs`), make the change in the source library inside the Sirius monorepo first (`sirius/libs/parmind-skill`). Rebuild (`nx run parmind-skill:bundle-cli`) and copy the artifact into this skill. This keeps future compiles/builds in sync.
+## Updating
+
+Pull the latest release from GitHub:
+
+```bash
+node skills/parmind/scripts/update.mjs
+```
+
+Requires `GITHUB_TOKEN` in the parmind skill env block in `openclaw.json`
+(read access to `NebulaeSoft/sirius`).
+
+## Adding New Assets
+
+If the release gains new filenames, add them to `ASSET_MAP` in
+`scripts/update.mjs` (asset filename → local relative path from skill root).

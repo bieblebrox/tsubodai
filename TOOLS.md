@@ -1,40 +1,29 @@
-# TOOLS.md - Local Notes
+# TOOLS.md — Tsubodai's Cheat Sheet
 
-Skills define _how_ tools work. This file is for _your_ specifics — the stuff that's unique to your setup.
+## Parmind — Planning Areas
 
-## What Goes Here
+Run `area:list --pretty` at the start of the first planning session and fill these in.
 
-Things like:
+| Area | ID |
+|---|---|
+| Planning | _(populate after area:list)_ |
+| Short Term | _(populate after area:list)_ |
+| Mid Term | _(populate after area:list)_ |
 
-- Camera names and locations
-- SSH hosts and aliases
-- Preferred voices for TTS
-- Speaker/room names
-- Device nicknames
-- Anything environment-specific
+## Parmind — Note Naming Conventions
 
-## Examples
+| Type | Title format | Example |
+|---|---|---|
+| Weekly plan | `Plan: YYYY-WNN` | `Plan: 2026-W13` |
+| Quarterly goals | `Goals: Q[N] YYYY` | `Goals: Q2 2026` |
+| Decision log | `Decision: YYYY-MM-DD <slug>` | `Decision: 2026-03-23 agent-stack` |
 
-```markdown
-### Cameras
+## Quick Invocation
 
-- living-room → Main area, 180° wide angle
-- front-door → Entrance, motion-triggered
+```bash
+# All parmind commands (from workspace root)
+node skills/parmind/scripts/parmind-cli.mjs <command> [options]
 
-### SSH
-
-- home-server → 192.168.1.100, user: admin
-
-### TTS
-
-- Preferred voice: "Nova" (warm, slightly British)
-- Default speaker: Kitchen HomePod
+# Skill self-update
+node skills/parmind/scripts/update.mjs
 ```
-
-## Why Separate?
-
-Skills are shared. Your setup is yours. Keeping them apart means you can update skills without losing your notes, and share skills without leaking your infrastructure.
-
----
-
-Add whatever helps you do your job. This is your cheat sheet.
