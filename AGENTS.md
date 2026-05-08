@@ -40,9 +40,11 @@ Capture what matters. Decisions, context, things to remember. Skip the secrets u
 
 - **Memory is limited** — if you want to remember something, WRITE IT TO A FILE
 - "Mental notes" don't survive session restarts. Files do.
+- **Write to `memory/YYYY-MM-DD.md` immediately after completing any significant task** — a decision, a search result, a file change, a tool output, anything worth remembering. Do not wait until the end of the session. One bullet per task, inline, as you go.
 - When someone says "remember this" → update `memory/YYYY-MM-DD.md` or relevant file
 - When you learn a lesson → update AGENTS.md, TOOLS.md, or the relevant skill
 - When you make a mistake → document it so future-you doesn't repeat it
+- If Josh runs `/new`, write a brief summary of what you did before the session ends
 - **Text > Brain** 📝
 
 ## Safety

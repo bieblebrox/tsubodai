@@ -1,0 +1,12 @@
+{
+  "name": "openclaw-google-oauth-setup",
+  "private": true,
+  "type": "module",
+  "description": "One-time OAuth helper to obtain a Google refresh token for Tsubodai (Drive / Sheets / optional Gmail)",
+  "scripts": {
+    "token": "node google-oauth-token.mjs"
+  },
+  "dependencies": {
+    "google-auth-library": "^9.15.1"
+  }
+}

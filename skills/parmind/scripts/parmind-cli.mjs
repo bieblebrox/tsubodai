@@ -10018,7 +10018,7 @@ var init_markdown = __esm({
       b: { bold: true },
       u: { underline: true }
     };
-    g.setOptions({ headerIds: false, gfm: true });
+    g.setOptions({ gfm: true });
     markdownToSlate = (markdownText, options = {}) => {
       if (!markdownText || !markdownText.trim()) {
         return [createEmptyNode()];
@@ -10042,7 +10042,7 @@ var init_markdown = __esm({
     };
     transformNode = (node, options, marks = []) => {
       if (node instanceof import_node_html_parser.TextNode) {
-        const raw = node.rawText;
+        const raw = node.text;
         if (!raw || !raw.trim()) return null;
         const text = raw.replace(/^\n+|\n+$/g, "");
         if (!text) return null;
@@ -10111,8 +10111,7 @@ var init_markdown = __esm({
 });
 
 // libs/parmind-skill/src/lib/api-key-client.ts
-import { createHash } from "node:crypto";
-var PROD_API_BASE, ENV_API_BASE, ENV_API_KEY, createApiKeyClient, resolveApiBaseUrl, stableStringify, computeContentsHash, toSlateContent, createApiKeyBackedClient;
+var PROD_API_BASE, ENV_API_BASE, ENV_API_KEY, createApiKeyClient, resolveApiBaseUrl, toSlateContent, createApiKeyBackedClient;
 var init_api_key_client = __esm({
   "libs/parmind-skill/src/lib/api-key-client.ts"() {
     "use strict";
@@ -10136,20 +10135,6 @@ var init_api_key_client = __esm({
       const base = override ?? process.env[ENV_API_BASE] ?? PROD_API_BASE;
       return base.replace(/\/+$/, "");
     };
-    stableStringify = (value) => {
-      if (Array.isArray(value)) {
-        return `[${value.map(stableStringify).join(",")}]`;
-      }
-      if (value !== null && typeof value === "object") {
-        const keys = Object.keys(value).sort();
-        const pairs = keys.map(
-          (k2) => `${JSON.stringify(k2)}:${stableStringify(value[k2])}`
-        );
-        return `{${pairs.join(",")}}`;
-      }
-      return JSON.stringify(value);
-    };
-    computeContentsHash = (contents) => createHash("sha256").update(stableStringify(contents)).digest("hex");
     toSlateContent = (input) => {
       if (input.slateContent && input.slateContent.length > 0) {
         return input.slateContent;
@@ -10202,18 +10187,21 @@ var init_api_key_client = __esm({
             "createNote",
             { kbId: input.kbId },
             () => withRetry(async () => {
-              const contents = ensureSlateContent(input);
               const payload = {
                 knowledgeBaseId: input.kbId,
                 knowledgeBase: { connect: { id: input.kbId } },
                 name: input.title,
-                contents,
                 type: input.type ?? "Note",
                 color: input.color,
                 icon: input.icon,
                 thumbnail: input.thumbnail,
                 data: input.data ?? {}
               };
+              if (input.markdownContent) {
+                payload["markdownContent"] = input.markdownContent;
+              } else {
+                payload["contents"] = ensureSlateContent(input);
+              }
               const response = await request("node", {
                 method: "POST",
                 body: JSON.stringify(payload)
@@ -10238,6 +10226,29 @@ var init_api_key_client = __esm({
             () => withRetry(async () => {
               const response = await request(`node/${nodeId}`);
               return { node: unwrap(response, "node:get") };
+            })
+          );
+        },
+        async listNodes(input = {}) {
+          return withTelemetry(
+            logger,
+            "listNodes",
+            {},
+            () => withRetry(async () => {
+              const params = new URLSearchParams();
+              if (input.sortBy) params.set("sortBy", input.sortBy);
+              if (input.sortOrder) params.set("sortOrder", input.sortOrder);
+              if (input.areaId) params.set("areaId", input.areaId);
+              if (input.relatedToNodeId) params.set("relatedToNodeId", input.relatedToNodeId);
+              if (input.type) params.set("type", input.type);
+              if (input.skip !== void 0) params.set("skip", String(input.skip));
+              if (input.take !== void 0) params.set("take", String(input.take));
+              const qs = params.toString();
+              const response = await request(
+                qs ? `node?${qs}` : "node"
+              );
+              const nodes = unwrap(response, "node:list");
+              return { nodes, skip: input.skip ?? 0, take: input.take ?? 20 };
             })
           );
         },
@@ -10352,7 +10363,7 @@ var init_api_key_client = __esm({
                 nodeId: node.id,
                 nodeName: node.name,
                 contents,
-                contentHash: computeContentsHash(contents)
+                contentHash: node.contentHash ?? ""
               };
             })
           );
@@ -10364,34 +10375,40 @@ var init_api_key_client = __esm({
             "updateNode",
             { nodeId: input.nodeId, mode },
             () => withRetry(async () => {
-              const response = await request(`node/${input.nodeId}`);
-              const node = unwrap(response, "node:get");
-              const existingContents = node.contents ?? [];
-              const newBlocks = markdownToSlate(input.markdownContent);
-              let updatedContents;
-              if (mode === "replace") {
-                if (existingContents.length > 0) {
-                  if (!input.contentHash) {
-                    throw new Error(
-                      `Node '${node.name}' (${node.id}) already has content. Call getNodeContents first to read it, then re-call updateNode with the returned contentHash.`
-                    );
-                  }
-                  const currentHash = computeContentsHash(existingContents);
-                  if (input.contentHash !== currentHash) {
-                    throw new Error(
-                      `contentHash mismatch for node '${node.name}' (${node.id}) \u2014 it was modified since you last read it. Call getNodeContents again to get the latest content and hash before retrying.`
-                    );
-                  }
-                }
-                updatedContents = newBlocks;
-              } else {
-                updatedContents = [...existingContents, ...newBlocks];
+              const payload = {
+                markdownContent: input.markdownContent,
+                updateMode: mode
+              };
+              if (mode === "replace" && input.contentHash) {
+                payload["contentHash"] = input.contentHash;
               }
-              await request(`node/${node.id}`, {
+              const response = await request(`node/${input.nodeId}`, {
                 method: "PATCH",
-                body: JSON.stringify({ contents: updatedContents })
+                body: JSON.stringify(payload)
               });
+              const node = unwrap(response, "node:update");
               return { nodeId: node.id, nodeName: node.name, mode };
+            })
+          );
+        },
+        async createRelation(input) {
+          return withTelemetry(
+            logger,
+            "createRelation",
+            { sourceNodeId: input.sourceNodeId, targetNodeId: input.targetNodeId },
+            () => withRetry(async () => {
+              const payload = {
+                sourceNodeId: input.sourceNodeId,
+                targetNodeId: input.targetNodeId,
+                ...input.name ? { name: input.name } : {},
+                ...input.data ? { data: input.data } : {}
+              };
+              const response = await request("relation", {
+                method: "POST",
+                body: JSON.stringify(payload)
+              });
+              const relation = unwrap(response, "relation:create");
+              return { relation };
             })
           );
         }
@@ -10532,6 +10549,25 @@ var require_main = __commonJS({
         process.exit(1);
       }
     });
+    program2.command("node:list").description("List nodes in the KB with optional filtering and sorting").option("--sort-by <field>", "Sort field: createdAt | updatedAt | name (default: updatedAt)").option("--sort-order <dir>", "Sort direction: asc | desc (default: desc)").option("--area <areaId>", "Filter nodes belonging to this area").option("--related-to <nodeId>", "Filter nodes connected to this node (any direction)").option("--type <type>", "Filter by node type (e.g. Note, Resource, Entity)").option("--skip <n>", "Pagination offset", (v2) => Number(v2), 0).option("--take <n>", "Page size (max 100)", (v2) => Number(v2), 20).action(async (cmdOptions) => {
+      const rootOpts = program2.opts();
+      try {
+        const client = getClient(rootOpts);
+        const result = await client.listNodes({
+          sortBy: cmdOptions.sortBy,
+          sortOrder: cmdOptions.sortOrder,
+          areaId: cmdOptions.area,
+          relatedToNodeId: cmdOptions.relatedTo,
+          type: cmdOptions.type,
+          skip: cmdOptions.skip,
+          take: cmdOptions.take
+        });
+        output(result, rootOpts.pretty);
+      } catch (error) {
+        console.error(error instanceof Error ? error.message : error);
+        process.exit(1);
+      }
+    });
     program2.command("node:context").description("Get a node with its related nodes and relations").requiredOption("--id <nodeId>", "Node ID").action(async (cmdOptions) => {
       const rootOpts = program2.opts();
       try {
@@ -10581,6 +10617,21 @@ var require_main = __commonJS({
           markdownContent: markdown,
           mode: cmdOptions.mode,
           contentHash: cmdOptions.contentHash
+        });
+        output(result, rootOpts.pretty);
+      } catch (error) {
+        console.error(error instanceof Error ? error.message : error);
+        process.exit(1);
+      }
+    });
+    program2.command("relation:create").description("Create a relation (graph edge) between two existing nodes").requiredOption("--source <nodeId>", "Source node ID").requiredOption("--target <nodeId>", "Target node ID").option("--name <label>", "Optional human-readable label for the relation").action(async (cmdOptions) => {
+      const rootOpts = program2.opts();
+      try {
+        const client = getClient(rootOpts);
+        const result = await client.createRelation({
+          sourceNodeId: cmdOptions.source,
+          targetNodeId: cmdOptions.target,
+          name: cmdOptions.name
         });
         output(result, rootOpts.pretty);
       } catch (error) {

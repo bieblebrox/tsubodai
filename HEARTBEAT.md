@@ -1,6 +1,16 @@
 # Heartbeat checklist
 
-## 1. Check for open tasks (primary)
+## 1. Daily memory recovery
+
+- Read `memory/YYYY-MM-DD.md` for today and yesterday.
+- If yesterday's daily file is missing, sparse, or has no evening entries, recover unrecorded session work:
+  - Use `sessions_list` (kinds: `["group", "main"]`, activeMinutes: 2880) to find Tsubodai sessions from the last 48h.
+  - For any session updated yesterday that isn't already captured in the daily file, use `sessions_history` (with `sessionKey` and `limit: 50`) to read what was discussed.
+  - Also check `~/.openclaw/agents/main/sessions/` for any `*.reset.*` files modified in the last 2 days — read them directly with the `read` tool to recover archived transcript content.
+  - Distill any work not already captured into a bullet in yesterday's memory file (decisions, IDs, script names, file paths, conclusions — same format as existing entries).
+- If today's file doesn't exist yet, create it with a header: `# YYYY-MM-DD`
+
+## 2. Check for open tasks
 
 Run `ls workspace/openTasks/` (via `exec`) to list pending task files.
 
@@ -13,9 +23,18 @@ Run `ls workspace/openTasks/` (via `exec`) to list pending task files.
      - **Not yet** → leave the file, do nothing
      - **Session gone / stale** → delete the task file (no longer deliverable)
 
-## 2. Nothing pending
+## 3. Memory distillation (weekly)
 
-If all task files were handled or skipped: reply `HEARTBEAT_OK`
+Once per week (or when daily files accumulate 5+ unreviewed days):
+
+1. Read through recent `memory/YYYY-MM-DD.md` files not yet distilled
+2. Identify significant decisions, lessons, project context, or facts worth keeping long-term
+3. Append distilled entries to `MEMORY.md`
+4. Remove anything in MEMORY.md that's outdated or no longer relevant
+
+## 4. Nothing pending
+
+If all checks passed and task files were handled or skipped: reply `HEARTBEAT_OK`
 
 ---
 

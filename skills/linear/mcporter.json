@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "linear": {
+      "description": "Linear official hosted MCP — issues, projects, cycles, comments, attachments",
+      "baseUrl": "https://mcp.linear.app/mcp",
+      "headers": {
+        "Authorization": "Bearer ${LINEAR_API_KEY}"
+      }
+    }
+  },
+  "imports": []
+}

@@ -1,157 +1,57 @@
 ---
 name: linear
-description: Query and manage Linear issues, projects, and team workflows.
+description: Linear via MCPorter calling Linear's official hosted MCP — full issue/project workflow (teams, projects, milestones, cycles, labels, attachments).
 homepage: https://linear.app
-metadata: {"clawdis":{"emoji":"📊","requires":{"env":["LINEAR_API_KEY"]}}}
+metadata: {"openclaw":{"requires":{"env":["LINEAR_API_KEY"]}}}
 ---
 
-# Linear
+# Linear (MCPorter + hosted MCP)
 
-Manage issues, check project status, and stay on top of your team's work.
+Use **[MCPorter](https://github.com/steipete/mcporter)** to call **[Linear's MCP](https://linear.app/docs/mcp)** (`https://mcp.linear.app/mcp`). This replaces the old bash/GraphQL helper: you get the same tool surface as Cursor's Linear connector (richer create/update than `teamId` + title only).
 
-## Setup
+## Requirements
 
-```bash
-export LINEAR_API_KEY="your-api-key"
-# Optional: default team key used when a command needs a team
-export LINEAR_DEFAULT_TEAM="TEAM"
-```
+- `LINEAR_API_KEY` in the OpenClaw runtime (already set globally in `openclaw.json` for this host).
+- `MCPORTER_CONFIG` points at this skill's `mcporter.json` (set via `skills.entries.linear.env` in `openclaw.json`).
+- Node/npm available for `npx`.
 
-Discover team keys:
+## Quick wrapper (from workspace root)
 
 ```bash
-{baseDir}/scripts/linear.sh teams
+{baseDir}/scripts/linear-mcp.sh list linear
+{baseDir}/scripts/linear-mcp.sh list linear --all-parameters
+{baseDir}/scripts/linear-mcp.sh call linear.list_issues teamId=... --output json
 ```
 
-If `LINEAR_DEFAULT_TEAM` is set, you can omit the team key in `team` and call:
+Or equivalently:
 
 ```bash
-{baseDir}/scripts/linear.sh create "Title" ["Description"]
+npx -y mcporter@latest --config {baseDir}/mcporter.json list linear
+npx -y mcporter@latest --config {baseDir}/mcporter.json call 'linear.create_issue(title: "...", team: "PAR", project: "...")'
 ```
 
-## Quick Commands
+## Discovery (read this before creating issues)
 
-```bash
-# My stuff
-{baseDir}/scripts/linear.sh my-issues          # Your assigned issues
-{baseDir}/scripts/linear.sh my-todos           # Just your Todo items
-{baseDir}/scripts/linear.sh urgent             # Urgent/High priority across team
+1. **List tools and signatures:**  
+   `{baseDir}/scripts/linear-mcp.sh list linear`  
+   Use `--all-parameters` or `--schema` when you need every field (project, cycle, milestone, labels, state, etc.).
 
-# Browse
-{baseDir}/scripts/linear.sh teams              # List available teams
-{baseDir}/scripts/linear.sh team <TEAM_KEY>    # All issues for a team
-{baseDir}/scripts/linear.sh project <name>     # Issues in a project
-{baseDir}/scripts/linear.sh issue <TEAM-123>   # Get issue details
-{baseDir}/scripts/linear.sh branch <TEAM-123>  # Get branch name for GitHub
+2. **Resolve IDs:** Prefer MCP tools that list teams, projects, cycles, or issues over guessing. Wrong `team` / `project` / `cycle` IDs were the main failure mode with the old skill.
 
-# Actions
-{baseDir}/scripts/linear.sh create <TEAM_KEY> "Title" ["Description"]
-{baseDir}/scripts/linear.sh comment <TEAM-123> "Comment text"
-{baseDir}/scripts/linear.sh status <TEAM-123> <todo|progress|review|done|blocked>
-{baseDir}/scripts/linear.sh assign <TEAM-123> <userName>
-{baseDir}/scripts/linear.sh priority <TEAM-123> <urgent|high|medium|low|none>
+## Creating and updating work
 
-# Overview
-{baseDir}/scripts/linear.sh standup            # Daily standup summary
-{baseDir}/scripts/linear.sh projects           # All projects with progress
-```
+- Use **`mcporter call`** with the exact tool names from `list` (snake_case in API; MCPorter accepts dotted names like `linear.create_issue`).
+- Pass **explicit** `team`, `project`, `cycle`, `milestone`, `label` / `labelIds`, `state`, `priority`, and **assignee** when the user cares about placement — do not create bare issues and assume defaults.
+- For machine-readable output in scripts: `--output json` (see [MCPorter CLI docs](https://github.com/steipete/mcporter)).
 
-## Common Workflows
+## Attachments
 
-### Morning Standup
-```bash
-{baseDir}/scripts/linear.sh standup
-```
-Shows: your todos, blocked items across team, recently completed, what's in review.
+The hosted MCP exposes attachment tools (e.g. base64 upload). Use `list linear --all-parameters` for the current schema.
 
-### Quick Issue Creation (from chat)
-```bash
-{baseDir}/scripts/linear.sh create TEAM "Fix auth timeout bug" "Users getting logged out after 5 min"
-```
+## Auth note
 
-### Triage Mode
-```bash
-{baseDir}/scripts/linear.sh urgent    # See what needs attention
-```
+`mcporter.json` uses `"Authorization": "Bearer ${LINEAR_API_KEY}"` (MCPorter env interpolation). If you see 401, confirm the key is present in the agent environment.
 
-## Git Workflow (Linear ↔ GitHub Integration)
+## Git ↔ Linear
 
-**Always use Linear-derived branch names** to enable automatic issue status tracking.
-
-### Getting the Branch Name
-```bash
-{baseDir}/scripts/linear.sh branch TEAM-212
-# Returns: dev/team-212-fix-auth-timeout-bug
-```
-
-### Creating a Worktree for an Issue
-```bash
-# 1. Get the branch name from Linear
-BRANCH=$({baseDir}/scripts/linear.sh branch TEAM-212)
-
-# 2. Pull fresh main first (main should ALWAYS match origin)
-cd /path/to/repo
-git checkout main && git pull origin main
-
-# 3. Create worktree with that branch (branching from fresh origin/main)
-git worktree add .worktrees/team-212 -b "$BRANCH" origin/main
-cd .worktrees/team-212
-
-# 4. Do your work, commit, push
-git push -u origin "$BRANCH"
-```
-
-**⚠️ Never modify files on main.** All changes happen in worktrees only.
-
-### Why This Matters
-- Linear's GitHub integration tracks PRs by branch name pattern
-- When you create a PR from a Linear branch, the issue **automatically moves to "In Review"**
-- When the PR merges, the issue **automatically moves to "Done"**
-- Manual branch names break this automation
-- Keeping main clean = no accidental pushes, easy worktree cleanup
-
-### Quick Reference
-```bash
-# Full workflow example
-ISSUE="TEAM-212"
-BRANCH=$({baseDir}/scripts/linear.sh branch $ISSUE)
-
-# Always start from fresh main
-cd ~/workspace/your-repo
-git checkout main && git pull origin main
-
-# Create worktree (inside .worktrees/)
-git worktree add .worktrees/${ISSUE,,} -b "$BRANCH" origin/main
-cd .worktrees/${ISSUE,,}
-
-# ... make changes ...
-git add -A && git commit -m "fix: implement $ISSUE"
-git push -u origin "$BRANCH"
-gh pr create --title "$ISSUE: <title>" --body "Closes $ISSUE"
-```
-
-## Priority Levels
-
-| Level | Value | Use for |
-|-------|-------|---------|
-| urgent | 1 | Production issues, blockers |
-| high | 2 | This week, important |
-| medium | 3 | This sprint/cycle |
-| low | 4 | Nice to have |
-| none | 0 | Backlog, someday |
-
-## Teams (cached)
-
-Team keys and IDs are discovered via the API and cached locally after the first lookup.
-Use `linear.sh teams` to refresh and list available teams.
-
-## Notes
-
-- Uses GraphQL API (api.linear.app/graphql)
-- Requires `LINEAR_API_KEY` env var
-- Issue identifiers are like `TEAM-123`
-
-## Attribution
-
-Inspired by [schpet/linear-cli](https://github.com/schpet/linear-cli) by Peter Schilling (ISC License).
-This is an independent bash implementation for Clawdbot integration.
+Branch names and PR automation still follow Linear's GitHub integration. After creating an issue, use whichever MCP tool exposes branch name (or the issue URL) and follow `AGENTS.md` / team conventions for branch naming.
