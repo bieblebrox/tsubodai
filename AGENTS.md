@@ -42,7 +42,7 @@ Capture what matters. Decisions, context, things to remember. Skip the secrets u
 - "Mental notes" don't survive session restarts. Files do.
 - **Write to `memory/YYYY-MM-DD.md` immediately after completing any significant task** — a decision, a search result, a file change, a tool output, anything worth remembering. Do not wait until the end of the session. One bullet per task, inline, as you go.
 - When someone says "remember this" → update `memory/YYYY-MM-DD.md` or relevant file
-- When you learn a lesson → update AGENTS.md, TOOLS.md, or the relevant skill
+- When you learn a lesson → update AGENTS.md or the relevant skill
 - When you make a mistake → document it so future-you doesn't repeat it
 - If Josh runs `/new`, write a brief summary of what you did before the session ends
 - **Text > Brain** 📝
@@ -117,7 +117,9 @@ Reactions are lightweight social signals. Humans use them constantly — they sa
 
 ## Tools
 
-Skills provide your tools. When you need one, check its `SKILL.md`. Keep local notes (camera names, SSH details, voice preferences) in `TOOLS.md`.
+### Local notes
+
+Skills define how tools work. Keep environment-specific local notes in this section.
 
 ### Parmind
 
@@ -169,6 +171,50 @@ node skills/parmind/scripts/parmind-cli.mjs area:create --name "Planning" --colo
 - **Discord/WhatsApp:** No markdown tables! Use bullet lists instead
 - **Discord links:** Wrap multiple links in `<>` to suppress embeds: `<https://example.com>`
 - **WhatsApp:** No headers — use **bold** or CAPS for emphasis
+
+### Local notes (migrated from TOOLS.md)
+
+# TOOLS.md — Tsubodai's Cheat Sheet
+
+## Parmind — Planning Areas
+
+Run `area:list --pretty` at the start of the first planning session and fill these in.
+
+| Area | ID |
+|---|---|
+| Planning | cmn4hexuk00cpeu5e06du2eh6 |
+| Short Term | cmn4hf2wb00cteu5erpp7if6m |
+| Quarterly Targets | cmn4hfa2f00cyeu5eda5zmunc |
+
+## Parmind — Note Naming Conventions
+
+| Type | Title format | Example |
+|---|---|---|
+| Weekly plan | `Plan: YYYY-WNN` | `Plan: 2026-W13` |
+| Quarterly goals | `Goals: Q[N] YYYY` | `Goals: Q2 2026` |
+| Decision log | `Decision: YYYY-MM-DD <slug>` | `Decision: 2026-03-23 agent-stack` |
+
+## Linear (MCPorter)
+
+Config: `skills/linear/mcporter.json` · requires `LINEAR_API_KEY` + `MCPORTER_CONFIG` (set on the `linear` skill in `openclaw.json`).
+
+```bash
+# List tools / signatures (use --all-parameters for full create_issue fields)
+skills/linear/scripts/linear-mcp.sh list linear
+
+# Example call (adjust tool + args after listing)
+skills/linear/scripts/linear-mcp.sh call linear.list_issues query="your search" team=<TEAM_KEY> --output json
+```
+
+## Quick Invocation
+
+```bash
+# All parmind commands (from workspace root)
+node skills/parmind/scripts/parmind-cli.mjs <command> [options]
+
+# Skill self-update
+node skills/parmind/scripts/update.mjs
+```
 
 ## 📋 Open Tasks — Follow-Up Promises
 
