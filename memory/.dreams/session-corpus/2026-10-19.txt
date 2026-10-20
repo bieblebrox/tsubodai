@@ -1,0 +1,4 @@
+[main/sessions/main/4440954a-1893-461e-a68e-bef9c16c12fa#L51364] User: Reply with exactly PONG and nothing else. Do not use tools. Do not send Slack messages.
+[main/sessions/main/4440954a-1893-461e-a68e-bef9c16c12fa#L51365] Assistant: PONG
+[main/sessions/main/6649a5e6-dbd8-41ef-bc42-b665c89959fa#L2] User: Reply with exactly PONG and nothing else.
+[main/sessions/main/6649a5e6-dbd8-41ef-bc42-b665c89959fa#L3] Assistant: PONG
